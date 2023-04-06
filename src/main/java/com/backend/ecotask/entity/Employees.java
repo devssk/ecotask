@@ -45,4 +45,8 @@ public class Employees {
     @JoinColumn(name = "departmentId")
     private Departments departments;
 
+    public void updateSalary(BigDecimal salary) {
+        this.salary = salary;
+    }
+
 }

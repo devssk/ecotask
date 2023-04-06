@@ -1,6 +1,5 @@
 package com.backend.ecotask.repository;
 
-import com.backend.ecotask.dto.EmployeeCheckDto;
 import com.backend.ecotask.entity.Employees;
 import com.backend.ecotask.repository.querydsl.QEmployeesRepository;
 import org.springframework.data.jpa.repository.JpaRepository;

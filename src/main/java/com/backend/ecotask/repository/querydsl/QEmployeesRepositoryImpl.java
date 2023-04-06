@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.backend.ecotask.entity.QCountries.*;
@@ -44,5 +45,17 @@ public class QEmployeesRepositoryImpl implements QEmployeesRepository{
                 .where(employees.employeeId.eq(employeeId))
                 .fetchOne();
         return Optional.ofNullable(result);
+    }
+
+    @Override
+    public List<Employees> findFetchEmployeesInDepartment(Long departmentId) {
+        List<Employees> result = query
+                .select(employees)
+                .from(employees)
+                .leftJoin(employees.jobs, jobs).fetchJoin()
+                .leftJoin(employees.departments, departments).fetchJoin()
+                .where(employees.departments.departmentId.eq(departmentId))
+                .fetch();
+        return result;
     }
 }
