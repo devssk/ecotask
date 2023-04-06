@@ -1,8 +1,6 @@
 package com.backend.ecotask.service;
 
-import com.backend.ecotask.dto.employees.EmployeeHistoryInfoDto;
-import com.backend.ecotask.dto.employees.EmployeeHistoryInfoDtoMapper;
-import com.backend.ecotask.dto.employees.EmployeeNowInfoDto;
+import com.backend.ecotask.dto.employees.*;
 import com.backend.ecotask.entity.Employees;
 import com.backend.ecotask.entity.JobHistory;
 import com.backend.ecotask.repository.EmployeesRepository;
@@ -11,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +22,8 @@ public class EmployeesCheckServiceImpl implements EmployeesCheckService{
     private final JobHistoryRepository jobHistoryRepository;
 
     private final EmployeeHistoryInfoDtoMapper employeeHistoryInfoMapper;
+
+    private final EmployeeHistoryInfoDto2Mapper employeeHistoryInfoDto2Mapper;
 
     @Override
     public EmployeeNowInfoDto getEmployeeNowInfo(Long employeeId) {
@@ -50,16 +51,25 @@ public class EmployeesCheckServiceImpl implements EmployeesCheckService{
     }
 
     @Override
-    public EmployeeHistoryInfoDto getEmployeeHistoryInfo(Long employeeId) {
+    public EmployeeHistoryInfoDto2 getEmployeeHistoryInfo(Long employeeId) {
 
         if (employeeId == null) {
             throw new IllegalArgumentException("employeeId is null");
         }
 
-        Optional<JobHistory> findJobHistory = jobHistoryRepository.findFetchJobHistory(employeeId);
+        Optional<Employees> findEmployee = employeesRepository.findFetchEmployee(employeeId);
+        if (!findEmployee.isPresent()) {
+            throw new IllegalArgumentException("employee not find");
+        }
 
-        return findJobHistory.map(employeeHistoryInfoMapper).orElse(null);
+        EmployeeHistoryInfoDto2 result = employeeHistoryInfoDto2Mapper.apply(findEmployee.get());
 
+        List<JobHistory> findJobHistoryList = jobHistoryRepository.findFetchJobHistory(employeeId);
+        for (JobHistory jobHistory : findJobHistoryList) {
+            result.history().add(employeeHistoryInfoMapper.apply(jobHistory));
+        }
+
+        return result;
 
     }
 }

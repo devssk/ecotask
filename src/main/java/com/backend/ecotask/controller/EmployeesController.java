@@ -1,6 +1,7 @@
 package com.backend.ecotask.controller;
 
 import com.backend.ecotask.dto.employees.EmployeeHistoryInfoDto;
+import com.backend.ecotask.dto.employees.EmployeeHistoryInfoDto2;
 import com.backend.ecotask.dto.employees.EmployeeNowInfoDto;
 import com.backend.ecotask.service.EmployeesCheckService;
 import com.backend.ecotask.service.EmployeesSalaryService;
@@ -25,7 +26,7 @@ public class EmployeesController {
     }
 
     @GetMapping("/history/{employeeId}")
-    public EmployeeHistoryInfoDto getEmployeeHistoryInfo(@PathVariable Long employeeId) {
+    public EmployeeHistoryInfoDto2 getEmployeeHistoryInfo(@PathVariable Long employeeId) {
         return employeesCheckService.getEmployeeHistoryInfo(employeeId);
     }
 

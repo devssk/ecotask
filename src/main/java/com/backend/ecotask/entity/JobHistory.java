@@ -2,23 +2,15 @@ package com.backend.ecotask.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Entity
 @Getter
-@IdClass(JobHistoryId.class)
 public class JobHistory {
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "employeeId", nullable = false)
-    private Employees employees;
-
-    @Id
-    @Column(nullable = false)
-    private LocalDate startDate;
+    @EmbeddedId
+    private JobHistoryId jobHistoryId;
 
     @Column(nullable = false)
     private LocalDate endDate;

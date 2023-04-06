@@ -24,13 +24,11 @@ public class QJobHistory extends EntityPathBase<JobHistory> {
 
     public final QDepartments departments;
 
-    public final QEmployees employees;
-
     public final DatePath<java.time.LocalDate> endDate = createDate("endDate", java.time.LocalDate.class);
 
-    public final QJobs jobs;
+    public final QJobHistoryId jobHistoryId;
 
-    public final DatePath<java.time.LocalDate> startDate = createDate("startDate", java.time.LocalDate.class);
+    public final QJobs jobs;
 
     public QJobHistory(String variable) {
         this(JobHistory.class, forVariable(variable), INITS);
@@ -51,7 +49,7 @@ public class QJobHistory extends EntityPathBase<JobHistory> {
     public QJobHistory(Class<? extends JobHistory> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.departments = inits.isInitialized("departments") ? new QDepartments(forProperty("departments"), inits.get("departments")) : null;
-        this.employees = inits.isInitialized("employees") ? new QEmployees(forProperty("employees"), inits.get("employees")) : null;
+        this.jobHistoryId = inits.isInitialized("jobHistoryId") ? new QJobHistoryId(forProperty("jobHistoryId"), inits.get("jobHistoryId")) : null;
         this.jobs = inits.isInitialized("jobs") ? new QJobs(forProperty("jobs")) : null;
     }
 

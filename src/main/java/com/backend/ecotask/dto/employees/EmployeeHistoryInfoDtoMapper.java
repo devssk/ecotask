@@ -11,8 +11,8 @@ public class EmployeeHistoryInfoDtoMapper implements Function<JobHistory, Employ
     @Override
     public EmployeeHistoryInfoDto apply(JobHistory jobHistory) {
         return new EmployeeHistoryInfoDto(
-                jobHistory.getEmployees().getEmployeeId(),
-                jobHistory.getStartDate(),
+                jobHistory.getJobHistoryId().getEmployees().getEmployeeId(),
+                jobHistory.getJobHistoryId().getStartDate(),
                 jobHistory.getEndDate(),
                 new JobsDto(jobHistory.getJobs()),
                 new DepartmentsDto(jobHistory.getDepartments())

@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.backend.ecotask.entity.QDepartments.*;
@@ -25,15 +26,27 @@ public class QJobHistoryRepositoryImpl implements QJobHistoryRepository{
     }
 
     @Override
-    public Optional<JobHistory> findFetchJobHistory(Long employeeId) {
-        JobHistory result = query
+    public List<JobHistory> findFetchJobHistory(Long employeeId) {
+        List<JobHistory> result = query
                 .select(jobHistory)
                 .from(jobHistory)
-                .leftJoin(jobHistory.employees, employees).fetchJoin()
+                .leftJoin(jobHistory.jobHistoryId.employees, employees).fetchJoin()
                 .leftJoin(jobHistory.jobs, jobs).fetchJoin()
                 .leftJoin(jobHistory.departments, departments).fetchJoin()
-                .where(jobHistory.employees.employeeId.eq(employeeId))
-                .fetchOne();
-        return Optional.ofNullable(result);
+                .where(employees.employeeId.eq(employeeId))
+                .fetch();
+        return result;
+    }
+
+    @Override
+    public List<JobHistory> findFetchAllJobHistory() {
+        List<JobHistory> result = query
+                .select(jobHistory)
+                .from(jobHistory)
+                .leftJoin(jobHistory.jobHistoryId.employees, employees).fetchJoin()
+                .leftJoin(jobHistory.jobs, jobs).fetchJoin()
+                .leftJoin(jobHistory.departments, departments).fetchJoin()
+                .fetch();
+        return result;
     }
 }
