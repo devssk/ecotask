@@ -25,6 +25,7 @@ public class DepartmentsCheckServiceImpl implements DepartmentsCheckService{
 
         Optional<Departments> findDepartments = departmentsRepository.findFetchDepartment(departmentId);
 
-        return findDepartments.map(DepartmentInfoDto::new).orElse(null);
+//        return findDepartments.map(DepartmentInfoDto::new).orElse(null);
+        return null;
     }
 }

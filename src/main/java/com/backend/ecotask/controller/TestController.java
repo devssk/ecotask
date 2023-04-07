@@ -5,6 +5,7 @@ import com.backend.ecotask.entity.Employees;
 import com.backend.ecotask.entity.Jobs;
 import com.backend.ecotask.entity.Locations;
 import com.backend.ecotask.service.TestService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,11 @@ public class TestController {
     public List<Locations> test04() {
         List<Locations> result = testService.test4();
         return null;
+    }
+
+    @GetMapping("/5")
+    public void test05() throws JsonProcessingException {
+        testService.openAPITest();
     }
 
 }

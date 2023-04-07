@@ -1,6 +1,7 @@
 package com.backend.ecotask.service;
 
 import com.backend.ecotask.dto.employees.*;
+import com.backend.ecotask.dto.mapper.EmployeeMapper;
 import com.backend.ecotask.entity.Employees;
 import com.backend.ecotask.entity.JobHistory;
 import com.backend.ecotask.repository.EmployeesRepository;
@@ -21,9 +22,7 @@ public class EmployeesCheckServiceImpl implements EmployeesCheckService{
 
     private final JobHistoryRepository jobHistoryRepository;
 
-    private final EmployeeHistoryInfoDtoMapper employeeHistoryInfoMapper;
-
-    private final EmployeeHistoryInfoDto2Mapper employeeHistoryInfoDto2Mapper;
+    private final EmployeeMapper employeeMapper;
 
     @Override
     public EmployeeNowInfoDto getEmployeeNowInfo(Long employeeId) {
@@ -33,25 +32,35 @@ public class EmployeesCheckServiceImpl implements EmployeesCheckService{
             if (findEmployees.isPresent()) {
                 System.out.println(findEmployees.get().toString());
 //                EmployeeNowInfoDto result = modelMapper.map(findEmployees.get(), EmployeeNowInfoDto.class);
-                EmployeeNowInfoDto result = new EmployeeNowInfoDto(findEmployees.get());
+//                EmployeeNowInfoDto result = new EmployeeNowInfoDto(findEmployees.get());
+                EmployeeNowInfoDto result = null;
                 System.out.println(result.toString());
                 return result;
             }
         }
 
-//        if (lastName != null) {
-//            Optional<Employees> findEmployees = employeesRepository.findByLastName(lastName);
-//            if (findEmployees.isPresent()) {
-//                EmployeeCheckDto.HistoryInfoRes result = modelMapper.map(findEmployees.get(), EmployeeCheckDto.HistoryInfoRes.class);
-//                System.out.println(result.toString());
-//            }
-//        }
+        return null;
+    }
+
+    @Override
+    public EmployeeNowInfoDto getEmployeeNowInfo2(Long employeeId) {
+
+        if (employeeId != null) {
+            Optional<Employees> findEmployees = employeesRepository.findFetchEmployee(employeeId);
+            if (findEmployees.isPresent()) {
+                System.out.println(findEmployees.get().toString());
+//                EmployeeNowInfoDto result = modelMapper.map(findEmployees.get(), EmployeeNowInfoDto.class);
+                EmployeeNowInfoDto result = employeeMapper.employeesToEmployeeNowInfoDto(findEmployees.get());
+                System.out.println(result.toString());
+                return result;
+            }
+        }
 
         return null;
     }
 
     @Override
-    public EmployeeHistoryInfoDto2 getEmployeeHistoryInfo(Long employeeId) {
+    public EmployeeHistoryNowInfoDto getEmployeeHistoryInfo(Long employeeId) {
 
         if (employeeId == null) {
             throw new IllegalArgumentException("employeeId is null");
@@ -62,11 +71,13 @@ public class EmployeesCheckServiceImpl implements EmployeesCheckService{
             throw new IllegalArgumentException("employee not find");
         }
 
-        EmployeeHistoryInfoDto2 result = employeeHistoryInfoDto2Mapper.apply(findEmployee.get());
+//        EmployeeHistoryNowInfoDto result = employeeHistoryInfoDto2Mapper.apply(findEmployee.get());
+        EmployeeHistoryNowInfoDto result = employeeMapper.employeesToEmployeeHistoryNowInfoDto(findEmployee.get());
 
         List<JobHistory> findJobHistoryList = jobHistoryRepository.findFetchJobHistory(employeeId);
         for (JobHistory jobHistory : findJobHistoryList) {
-            result.history().add(employeeHistoryInfoMapper.apply(jobHistory));
+//            result.getHistory().add(employeeHistoryInfoMapper.apply(jobHistory));
+            result.getHistory().add(employeeMapper.jobHistoryToEmployeeHistoryInfoDto(jobHistory));
         }
 
         return result;
