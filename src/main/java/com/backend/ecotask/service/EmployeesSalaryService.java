@@ -4,4 +4,5 @@ import java.math.BigDecimal;
 
 public interface EmployeesSalaryService {
     void updateEmployeesSalaryInDepartment(Long departmentId, BigDecimal rate);
+    void returnEmployeesSalaryToOriginal();
 }

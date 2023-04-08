@@ -40,4 +40,9 @@ public class EmployeesController {
         employeesSalaryService.updateEmployeesSalaryInDepartment(departmentId, rate);
     }
 
+    @PatchMapping("/salary")
+    public void returnEmployeesSalaryToOriginal() {
+        employeesSalaryService.returnEmployeesSalaryToOriginal();
+    }
+
 }

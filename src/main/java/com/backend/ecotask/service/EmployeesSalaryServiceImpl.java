@@ -1,7 +1,9 @@
 package com.backend.ecotask.service;
 
 import com.backend.ecotask.entity.Employees;
+import com.backend.ecotask.entity.OriginalEmployees;
 import com.backend.ecotask.repository.EmployeesRepository;
+import com.backend.ecotask.repository.OriginalEmployeesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,8 @@ public class EmployeesSalaryServiceImpl implements EmployeesSalaryService{
 
     private final EmployeesRepository employeesRepository;
 
+    private final OriginalEmployeesRepository originalEmployeesRepository;
+
     @Override
     public void updateEmployeesSalaryInDepartment(Long departmentId, BigDecimal rate) {
         List<Employees> findEmployeesList = employeesRepository.findFetchEmployeesInDepartment(departmentId);
@@ -26,6 +30,20 @@ public class EmployeesSalaryServiceImpl implements EmployeesSalaryService{
                 salary = maxSalary;
             }
             employees.updateSalary(salary);
+        }
+    }
+
+    @Override
+    public void returnEmployeesSalaryToOriginal() {
+        List<Employees> employeeList = employeesRepository.findAll();
+        List<OriginalEmployees> originalEmployeeList = originalEmployeesRepository.findAll();
+
+        for (Employees employees : employeeList) {
+            for (OriginalEmployees originalEmployees : originalEmployeeList) {
+                if (employees.getEmployeeId() == originalEmployees.getEmployeeId()) {
+                    employees.updateSalary(originalEmployees.getSalary());
+                }
+            }
         }
     }
 }

@@ -38,8 +38,8 @@ public class TestService {
     private final JobsRepository jobsRepository;
     private final LocationsRepository locationsRepository;
 
-    @Value("${publicDate.service-key}")
-    final String SERVICE_KEY;
+    @Value("${publicData.service-key}")
+    String SERVICE_KEY;
 
     public List<EmployeeHistoryInfoDto> test() {
         List<JobHistory> all = jobHistoryRepository.findAll();

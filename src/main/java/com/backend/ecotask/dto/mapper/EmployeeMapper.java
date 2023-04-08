@@ -8,12 +8,10 @@ import org.mapstruct.Condition;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, unmappedSourcePolicy = ReportingPolicy.IGNORE)
-@Transactional(readOnly = true)
 public interface EmployeeMapper extends LazyLoadingAwareMapper {
 
     EmployeeNowInfoDto employeesToEmployeeNowInfoDto(Employees employees);
