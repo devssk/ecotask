@@ -1,8 +1,7 @@
-package com.backend.ecotask.dto.employees;
+package com.backend.ecotask.dto.countries;
 
-import com.backend.ecotask.entity.Countries;
+import com.backend.ecotask.dto.regions.RegionsDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter

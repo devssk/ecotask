@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -36,6 +37,9 @@ public class TestService {
     private final EmployeesRepository employeesRepository;
     private final JobsRepository jobsRepository;
     private final LocationsRepository locationsRepository;
+
+    @Value("${publicDate.service-key}")
+    final String SERVICE_KEY;
 
     public List<EmployeeHistoryInfoDto> test() {
         List<JobHistory> all = jobHistoryRepository.findAll();
@@ -67,10 +71,7 @@ public class TestService {
 
     public void openAPITest() throws JsonProcessingException {
 
-        String apiKey = "7fN%2FKywNXf7jyzbwLC1pSwpHnEpj5jMZhenQSVmc9hGUCtWjyWwFfaZc5QxCmzwoHol2fZ%2BzPMBRs6uGdINzVQ%3D%3D";
-        String apiKey2 = "7fN/KywNXf7jyzbwLC1pSwpHnEpj5jMZhenQSVmc9hGUCtWjyWwFfaZc5QxCmzwoHol2fZ+zPMBRs6uGdINzVQ==";
-
-        String url = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustWeekFrcstDspth?serviceKey=" + apiKey + "&returnType=json&numOfRows=100&pageNo=1";
+        String url = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustWeekFrcstDspth?serviceKey=" + SERVICE_KEY + "&returnType=json&numOfRows=100&pageNo=1";
 
 
 

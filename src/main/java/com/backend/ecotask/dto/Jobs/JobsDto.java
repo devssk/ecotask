@@ -1,8 +1,6 @@
-package com.backend.ecotask.dto.employees;
+package com.backend.ecotask.dto.Jobs;
 
-import com.backend.ecotask.entity.Jobs;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;

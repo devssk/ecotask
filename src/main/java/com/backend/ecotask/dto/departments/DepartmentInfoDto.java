@@ -1,6 +1,6 @@
 package com.backend.ecotask.dto.departments;
 
-import com.backend.ecotask.dto.employees.LocationsDto;
+import com.backend.ecotask.dto.locations.LocationsDto;
 import com.backend.ecotask.dto.employees.ManagerDto;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,15 +1,16 @@
 package com.backend.ecotask.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Getter
-@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employees {
 
     @Id

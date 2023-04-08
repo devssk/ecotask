@@ -1,4 +1,4 @@
-package com.backend.ecotask.dto.employees;
+package com.backend.ecotask.dto.regions;
 
 import com.backend.ecotask.entity.Regions;
 import lombok.Getter;
