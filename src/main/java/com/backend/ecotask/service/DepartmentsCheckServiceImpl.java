@@ -1,6 +1,6 @@
 package com.backend.ecotask.service;
 
-import com.backend.ecotask.dto.departments.DepartmentInfoDto;
+import com.backend.ecotask.dto.departments.DepartmentsDto;
 import com.backend.ecotask.dto.mapper.DepartmentMapper;
 import com.backend.ecotask.entity.Departments;
 import com.backend.ecotask.repository.DepartmentsRepository;
@@ -20,7 +20,7 @@ public class DepartmentsCheckServiceImpl implements DepartmentsCheckService{
     private final DepartmentMapper departmentMapper;
 
     @Override
-    public DepartmentInfoDto getDepartmentInfo(Long departmentId) {
+    public DepartmentsDto getDepartmentInfo(Long departmentId) {
 
         if (departmentId == null) {
             throw new IllegalArgumentException("departmentId is null");
@@ -28,7 +28,7 @@ public class DepartmentsCheckServiceImpl implements DepartmentsCheckService{
 
         Optional<Departments> findDepartments = departmentsRepository.findFetchDepartment(departmentId);
 
-        return findDepartments.map(departmentMapper::departmentToDepartmentInfoDto).orElseThrow(
+        return findDepartments.map(departmentMapper::departmentToDepartmentsDto).orElseThrow(
                 () -> new IllegalArgumentException("department is null")
         );
     }

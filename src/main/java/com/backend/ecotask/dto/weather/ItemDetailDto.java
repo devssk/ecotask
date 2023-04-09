@@ -1,0 +1,77 @@
+package com.backend.ecotask.dto.weather;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ItemDetailDto {
+    private String numOfRows;
+    private String pageNo;
+    private String totalCount;
+    private String resultCode;
+    private String resultMsg;
+    private String dataType;
+    private String stnId;
+    private String stnNm;
+    private String tm;
+    private String avgTa;
+    private String minTa;
+    private String minTaHrmt;
+    private String maxTa;
+    private String maxTaHrmt;
+    private String sumRnDur;
+    private String mi10MaxRn;
+    private String mi10MaxRnHrmt;
+    private String hr1MaxRn;
+    private String hr1MaxRnHrmt;
+    private String sumRn;
+    private String maxInsWs;
+    private String maxInsWsWd;
+    private String maxInsWsHrmt;
+    private String maxWs;
+    private String maxWsWd;
+    private String maxWsHrmt;
+    private String avgWs;
+    private String hr24SumRws;
+    private String maxWd;
+    private String avgTd;
+    private String minRhm;
+    private String minRhmHrmt;
+    private String avgRhm;
+    private String avgPv;
+    private String avgPa;
+    private String maxPs;
+    private String maxPsHrmt;
+    private String minPs;
+    private String minPsHrmt;
+    private String avgPs;
+    private String ssDur;
+    private String sumSsHr;
+    private String hr1MaxIcsrHrmt;
+    private String hr1MaxIcsr;
+    private String sumGsr;
+    private String ddMefs;
+    private String ddMefsHrmt;
+    private String ddMes;
+    private String ddMesHrmt;
+    private String sumDpthFhsc;
+    private String avgTca;
+    private String avgLmac;
+    private String avgTs;
+    private String minTg;
+    private String avgCm5Te;
+    private String avgCm10Te;
+    private String avgCm20Te;
+    private String avgCm30Te;
+    private String avgM05Te;
+    private String avgM10Te;
+    private String avgM15Te;
+    private String avgM30Te;
+    private String avgM50Te;
+    private String sumLrgEv;
+    private String sumSmlEv;
+    private String n99Rn;
+    private String iscs;
+    private String sumFogDur;
+}

@@ -1,7 +1,7 @@
 package com.backend.ecotask.service;
 
-import com.backend.ecotask.dto.departments.DepartmentInfoDto;
+import com.backend.ecotask.dto.departments.DepartmentsDto;
 
 public interface DepartmentsCheckService {
-    DepartmentInfoDto getDepartmentInfo(Long departmentId);
+    DepartmentsDto getDepartmentInfo(Long departmentId);
 }
