@@ -3,6 +3,8 @@ package com.backend.ecotask.service;
 import com.backend.ecotask.dto.weather.ResponseDto;
 import com.backend.ecotask.dto.weather.WeatherDto;
 import com.backend.ecotask.enums.StationCode;
+import com.backend.ecotask.exception.CustomException;
+import com.backend.ecotask.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,17 +31,14 @@ public class WeatherServiceImpl implements WeatherService{
     @Override
     public WeatherDto weatherTest(LocalDate date, String location) {
         if (date == null) {
-            throw new IllegalArgumentException("date is null");
+            throw new CustomException(ErrorCode.DATE_IS_NULL);
         }
-        if (date.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("dont now tomorrow");
-        }
-        if (date.isEqual(LocalDate.now())) {
-            throw new IllegalArgumentException("available from the previous day");
+        if (date.isEqual(LocalDate.now()) || date.isAfter(LocalDate.now())) {
+            throw new CustomException(ErrorCode.DATE_IS_NOT_PREVIOUS_DAY);
         }
         if (date.isEqual(LocalDate.now().minusDays(1))) {
             if (LocalTime.now().isBefore(LocalTime.of(11,0))) {
-                throw new IllegalArgumentException("yesterday is available after am 11:00");
+                throw new CustomException(ErrorCode.YESTERDAY_NOT_AVAILABLE);
             }
         }
 
@@ -69,12 +68,12 @@ public class WeatherServiceImpl implements WeatherService{
                 .block();
 
         if (response == null) {
-            throw new IllegalArgumentException("open api response failed");
+            throw new CustomException(ErrorCode.OPEN_API_FAILED);
         }
 
         if (!response.getResponse().getHeader().getResultCode().equals("00")) {
-            log.info("open api 에러");
-            throw new IllegalArgumentException("open api error");
+            log.error("open api 에러, " + response.getResponse().getHeader().getResultCode() + ", " + response.getResponse().getHeader().getResultMsg());
+            throw new CustomException(ErrorCode.OPEN_API_ERROR);
         }
 
         return new WeatherDto(

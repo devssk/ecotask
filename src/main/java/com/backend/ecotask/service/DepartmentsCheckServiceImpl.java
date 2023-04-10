@@ -3,12 +3,12 @@ package com.backend.ecotask.service;
 import com.backend.ecotask.dto.departments.DepartmentsDto;
 import com.backend.ecotask.dto.mapper.DepartmentMapper;
 import com.backend.ecotask.entity.Departments;
+import com.backend.ecotask.exception.CustomException;
+import com.backend.ecotask.exception.ErrorCode;
 import com.backend.ecotask.repository.DepartmentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,14 +22,18 @@ public class DepartmentsCheckServiceImpl implements DepartmentsCheckService{
     @Override
     public DepartmentsDto getDepartmentInfo(Long departmentId) {
 
+        Departments department = findDepartment(departmentId);
+
+        return departmentMapper.departmentToDepartmentsDto(department);
+    }
+
+    private Departments findDepartment(Long departmentId) {
         if (departmentId == null) {
-            throw new IllegalArgumentException("departmentId is null");
+            throw new CustomException(ErrorCode.DEPARTMENT_ID_IS_NULL);
         }
 
-        Optional<Departments> findDepartments = departmentsRepository.findFetchDepartment(departmentId);
-
-        return findDepartments.map(departmentMapper::departmentToDepartmentsDto).orElseThrow(
-                () -> new IllegalArgumentException("department is null")
+        return departmentsRepository.findFetchDepartment(departmentId).orElseThrow(
+                () -> new CustomException(ErrorCode.DEPARTMENT_NOT_FOUND)
         );
     }
 }

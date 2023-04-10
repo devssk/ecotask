@@ -21,8 +21,8 @@ public enum StationCode {
     BUSAN("부산", 159),
     JEJU("제주", 184);
 
-    private String location;
-    private Integer code;
+    private final String location;
+    private final Integer code;
 
     public String getLocaion() {
         return location;

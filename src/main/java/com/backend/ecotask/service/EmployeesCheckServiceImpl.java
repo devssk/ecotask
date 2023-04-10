@@ -4,6 +4,8 @@ import com.backend.ecotask.dto.employees.*;
 import com.backend.ecotask.dto.mapper.EmployeeMapper;
 import com.backend.ecotask.entity.Employees;
 import com.backend.ecotask.entity.JobHistory;
+import com.backend.ecotask.exception.CustomException;
+import com.backend.ecotask.exception.ErrorCode;
 import com.backend.ecotask.repository.EmployeesRepository;
 import com.backend.ecotask.repository.JobHistoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,30 +28,17 @@ public class EmployeesCheckServiceImpl implements EmployeesCheckService{
     @Override
     public EmployeeNowInfoDto getEmployeeNowInfo(Long employeeId) {
 
-        if (employeeId != null) {
-            Optional<Employees> findEmployees = employeesRepository.findFetchEmployee(employeeId);
-            if (findEmployees.isPresent()) {
-                EmployeeNowInfoDto result = employeeMapper.employeesToEmployeeNowInfoDto(findEmployees.get());
-                return result;
-            }
-        }
+        Employees findEmployee = findEmployee(employeeId);
 
-        return null;
+        return employeeMapper.employeesToEmployeeNowInfoDto(findEmployee);
     }
 
     @Override
     public EmployeeHistoryNowInfoDto getEmployeeHistoryInfo(Long employeeId) {
 
-        if (employeeId == null) {
-            throw new IllegalArgumentException("employeeId is null");
-        }
+        Employees findEmployee = findEmployee(employeeId);
 
-        Optional<Employees> findEmployee = employeesRepository.findFetchEmployee(employeeId);
-        if (!findEmployee.isPresent()) {
-            throw new IllegalArgumentException("employee not find");
-        }
-
-        EmployeeHistoryNowInfoDto result = employeeMapper.employeesToEmployeeHistoryNowInfoDto(findEmployee.get());
+        EmployeeHistoryNowInfoDto result = employeeMapper.employeesToEmployeeHistoryNowInfoDto(findEmployee);
 
         List<JobHistory> findJobHistoryList = jobHistoryRepository.findFetchJobHistory(employeeId);
         for (JobHistory jobHistory : findJobHistoryList) {
@@ -59,5 +47,16 @@ public class EmployeesCheckServiceImpl implements EmployeesCheckService{
 
         return result;
 
+    }
+
+    private Employees findEmployee(Long employeeId) {
+
+        if (employeeId == null) {
+            throw new CustomException(ErrorCode.EMPLOYEE_ID_IS_NULL);
+        }
+
+        return employeesRepository.findFetchEmployee(employeeId).orElseThrow(
+                () -> new CustomException(ErrorCode.EMPLOYEE_NOT_FOUND)
+        );
     }
 }

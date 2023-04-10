@@ -46,8 +46,44 @@ public class Employees {
     @JoinColumn(name = "departmentId")
     private Departments departments;
 
+    public void updateFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void updateLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void updateHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public void updateJobs(Jobs jobs) {
+        this.jobs = jobs;
+    }
+
     public void updateSalary(BigDecimal salary) {
         this.salary = salary;
+    }
+
+    public void updateCommissionPct(BigDecimal commissionPct) {
+        this.commissionPct = commissionPct;
+    }
+
+    public void updateManager(Employees manager) {
+        this.manager = manager;
+    }
+
+    public void updateDepartments(Departments departments) {
+        this.departments = departments;
     }
 
 }
