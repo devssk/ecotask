@@ -1,8 +1,11 @@
 package com.backend.ecotask.service;
 
-import java.math.BigDecimal;
+import com.backend.ecotask.dto.employees.EmployeeSalaryRateReqDto;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 public interface EmployeesSalaryService {
-    void updateEmployeesSalaryInDepartment(Long departmentId, BigDecimal rate);
+    void updateEmployeesSalaryInDepartment(Long departmentId, @Valid EmployeeSalaryRateReqDto rate);
     void returnEmployeesSalaryToOriginal();
 }

@@ -1,5 +1,6 @@
 package com.backend.ecotask;
 
+import com.backend.ecotask.dto.employees.EmployeeSalaryRateReqDto;
 import com.backend.ecotask.entity.Departments;
 import com.backend.ecotask.entity.Employees;
 import com.backend.ecotask.entity.Jobs;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeesSalaryServiceTest {
@@ -67,11 +70,12 @@ public class EmployeesSalaryServiceTest {
 
         Long departmentId = 60L;
         BigDecimal rate = BigDecimal.valueOf(0.05);
+        EmployeeSalaryRateReqDto requestDto = createDto(rate);
 
         Mockito.doReturn(employeesList).when(employeesRepository).findFetchEmployeesInDepartment(departmentId);
 
         // when
-        employeesSalaryService.updateEmployeesSalaryInDepartment(departmentId, rate);
+        employeesSalaryService.updateEmployeesSalaryInDepartment(departmentId, requestDto);
 
         // then
         for (Employees employee : employeesList) {
@@ -101,11 +105,12 @@ public class EmployeesSalaryServiceTest {
 
         Long departmentId = 60L;
         BigDecimal rate = BigDecimal.valueOf(0.05);
+        EmployeeSalaryRateReqDto requestDto = createDto(rate);
 
-        Mockito.doReturn(employeesList).when(employeesRepository).findFetchEmployeesInDepartment(departmentId);
+        Mockito.doReturn(employeesList).when(employeesRepository).findFetchEmployeesInDepartment(any(Long.class));
 
         // when
-        employeesSalaryService.updateEmployeesSalaryInDepartment(departmentId, rate);
+        employeesSalaryService.updateEmployeesSalaryInDepartment(departmentId, requestDto);
 
         // then
         for (Employees employee : employeesList) {
@@ -138,6 +143,12 @@ public class EmployeesSalaryServiceTest {
                 .minSalary(minSalary)
                 .maxSalary(maxSalary)
                 .build();
+    }
+
+    private EmployeeSalaryRateReqDto createDto(BigDecimal rate) {
+        EmployeeSalaryRateReqDto result = new EmployeeSalaryRateReqDto();
+        result.setRate(rate);
+        return result;
     }
 
 }
