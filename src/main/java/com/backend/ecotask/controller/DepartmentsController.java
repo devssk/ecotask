@@ -17,7 +17,7 @@ public class DepartmentsController {
 
     private final DepartmentsCheckService departmentsCheckService;
 
-    @Operation(summary = "부서 검색", description = "", tags = {"DepartmentsController"})
+    @Operation(summary = "부서 검색", description = "부서와 위치정보를 검색합니다.", tags = {"DepartmentsController"})
     @Parameter(name = "departmentId", description = "부서 PK")
     @GetMapping("/{departmentId}")
     public DepartmentsDto getDepartmentInfo(

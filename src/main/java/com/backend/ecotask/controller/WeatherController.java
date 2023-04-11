@@ -23,7 +23,7 @@ public class WeatherController {
 
     private final WeatherService weatherService;
 
-    @Operation(summary = "open api 이용 기상 정보 가져오기", description = "", tags = {"WeatherController"})
+    @Operation(summary = "open api 이용 기상 정보 가져오기", description = "공공데이터포털의 기상정보 open api를 이용하여 기상정보를 검색합니다.", tags = {"WeatherController"})
     @Parameters(value = {
             @Parameter(name = "date", description = "알고 싶은 기상정보 날짜, 전일(D-1)까지 제공, 전일은 오전 11:00 이후 가능", example = "2023-04-08"),
             @Parameter(name = "location", description = "알고싶은 도시 (속초, 철원, 파주, 서울, 인천, 수원, 대전, 대구, 전주, 광주, 부산, 제주)", example = "서울")

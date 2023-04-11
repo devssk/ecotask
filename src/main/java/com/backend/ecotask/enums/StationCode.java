@@ -1,6 +1,5 @@
 package com.backend.ecotask.enums;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 
 import java.util.Arrays;
@@ -24,7 +23,7 @@ public enum StationCode {
     private final String location;
     private final Integer code;
 
-    public String getLocaion() {
+    public String getLocation() {
         return location;
     }
 
@@ -33,7 +32,7 @@ public enum StationCode {
     }
 
     public static StationCode find(String location) {
-        Optional<StationCode> result = Arrays.stream(values()).filter(stationCode -> stationCode.getLocaion().equals(location)).findAny();
+        Optional<StationCode> result = Arrays.stream(values()).filter(stationCode -> stationCode.getLocation().equals(location)).findAny();
         return result.orElseThrow(
                 () -> new IllegalArgumentException("station not found")
         );
