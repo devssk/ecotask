@@ -4,7 +4,7 @@ JPA + querydsl
 
 mariaDB
 
-### `개발고민들`
+### `개발이슈들`
 <details>
 <summary>PK가 없는 TABLE JPA 맵핑</summary>
 JobHistory의 DB구조는 PK가 없는 구조이다.
@@ -51,4 +51,36 @@ MapStruct를 사용하면서 나타난 문제는 JPA의 대표적 문제인 N + 
 연관되는 테이블을 모두 fetch를 사용하여 끌어왔는데 추가적으로 쿼리가 나가고 있는 문제가있다.
 <br>
 이것에 대한거는 좀더 디버그를 해보면서 잡아봐야할것같다.
+<br>
+2023-04-11
+<br>
+추가적으로 쿼리가 나가는 문제는 mapperImpl이 잘못생성되어 사용하지않는 필드도 접근하여
+<br>
+Lazy로딩이 추가적으로 나가고 있었던 문제로 재생성을하여 해결하였다.
+</details>
+<details>
+<summary>validation</summary>
+dto의 유효성 검증을 위해 validation을 도입하여 사용하였다.
+<br>
+컨트롤러에 써도 되지만 해당 exception을 핸들링 하고 싶어서 서비스단에 적용했다.
+<br>
+컨트롤러에서는 ArgumentResolver가 동작하여 구현체인 RequestResponseBodyMethodProcessor가 처리를 하는데
+<br>
+이 내부에서 @Valid로 시작하는 어노테이션이 있을경우 유효성 검사를 진행한다.
+<br>
+이때 검증에 오류가 있다면 MethodArgumentNotValidException 예외가 발생하고 dispatcherservlet에 등록된
+<br>
+DefaultHandlerExceptionResolver에 의해 400 BAD_REQUEST가 반환된다.
+<br>
+컨트롤러가 아닌 다른곳에 하고싶다면 AOP기반으로 유효성 검증을 진행하는 @Validated가 있다.
+<br>
+클래스단에 @Validated 를 붙이고 유효성 검증을 진행할 파라미터에 @Valid를 붙여주면 된다.
+<br>
+검증에 오류가 있다면 ConstraintViolationException 예외가 발생한다.
+<br>
+이 예외를 globalExceptionHandler에 지정하여 반환해주도록 설정했다.
+<br>
+다만 service를 인터페이스와 구현체로 사용하는데 구현체에 @Validated를 적용하면 안된다.
+<br>
+이러면 ConstraintDeclarationException 예외가 발생하며 인터페이스에 @Validated를 적용해야 한다.
 </details>
