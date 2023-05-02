@@ -9,8 +9,6 @@ mariaDB
 validation(유효성검증), webflux(resttemplate대신 webclient 사용), mapstruct(dto mapper사용), swagger(api명세서)
 </details>
 
-[api명세서](http://13.125.208.145:8080/swagger-ui/index.html#)
-
 ### `개발이슈들`
 <details>
 <summary>PK가 없는 TABLE JPA 맵핑</summary>
